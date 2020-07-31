@@ -29,6 +29,7 @@
 <div id="app" class="container-fluid">
 
 @include('shop.layouts.header');
+@include('shop.layouts.header-mobile');
 
 @yield('content');
 
@@ -67,6 +68,7 @@
         </div>
     </div> --}}
 </div>
+    <script src="{{ asset('js/app.js') }}"></script>
     <script src="plugins/jquery-3.4.1.min.js"></script>
     <script src="plugins/nouislider/nouislider.min.js"></script>
     <script src="plugins/popper.min.js"></script>
@@ -85,7 +87,6 @@
     <script src="plugins/gmap3.min.js"></script>
     <!-- custom scripts-->
     <script src="js/main.js"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 
 </html>

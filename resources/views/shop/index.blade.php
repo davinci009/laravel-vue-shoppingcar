@@ -79,6 +79,24 @@
                     </div><a href="#">View all</a>
                 </div> --}}
 
+                <div class="ps-shopping ps-tab-root">
+                    {{--  <div class="ps-shop-brand">
+                        @foreach($featured_stores as $store)
+                            <a href="#"><img src="{{ $store->logo_url }}" style="max-height: 80px" alt=""></a>
+                        @endforeach
+                    </div>--}}
+
+                    {{--  HEADER DEL LISTADO Y SELECT DE ORDEN  --}}
+                    <div class="ps-shopping__header">
+                        <p>
+                            <strong id="totalProducts">
+                                {{--  @{{ shoppingCar.cars }}  --}}
+                            </strong> {{ __("Classifieds found") }}
+                        </p>
+                        <product-sorter></product-sorter>
+                    </div>
+                </div>
+
                 <product-container></product-container>
             </div>
         </div>

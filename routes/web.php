@@ -15,3 +15,7 @@ Route::get('/products', 'ProductController@index')->name('product.index');
 
 Route::prefix('/v1')->group(function () {
 });
+
+Route:: get('/car/{id}/add', 'Shop\ShoppingCarController@addToCar');
+Route:: get('/car/get/content', 'Shop\ShoppingCarController@getCarContent');
+Route:: delete('/car/{id}/delete', 'Shop\ShoppingCarController@deleteOneCar');
