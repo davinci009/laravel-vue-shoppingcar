@@ -2209,9 +2209,7 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     getAllProducts: function getAllProducts() {
       return this.$store.getters['productsIndex/getAllProducts'];
-    } // cars () {
-    //     return this.$store.state.shoppingCar.cars;
-    // }
+    } // cars () { return this.$store.state.shoppingCar.cars }
 
   },
   methods: {
@@ -2232,12 +2230,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.$store.dispatch('productsIndex/loadData'); // axios.get('/products')
-    // .then(response => { this.products = response.data })
-    // .then(data => {
-    //     let totalItem = document.body.querySelector('#totalProducts')
-    //     totalItem.innerHTML = this.products.length;
-    // })
+    this.$store.dispatch('productsIndex/loadData');
   }
 });
 
@@ -2268,6 +2261,9 @@ __webpack_require__.r(__webpack_exports__);
     return {
       selected: '',
       options: [{
+        value: "name",
+        key: "Sort by name"
+      }, {
         value: "latest",
         key: "Sort by latest"
       }, {
@@ -2290,7 +2286,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log('event');
     },
     sort: function sort(event) {
-      this.$store.dispatch('productsIndex/sortItem', event.target.value); //if (event.target.value == 'price_desc'){ }
+      this.$store.dispatch('productsIndex/sortItem', event.target.value);
     }
   },
   mounted: function mounted() {//this.$refs.mySelect.className += 'order_by ps-select'
@@ -53344,22 +53340,30 @@ var mutations = {
   loadDataM: function loadDataM(state) {
     axios.get('/products').then(function (response) {
       state.products = response.data; //console.log(state.products)
-    }); // .then(data => {
-    //     let totalItem = document.body.querySelector('#totalProducts')
-    //     totalItem.innerHTML = this.products.length;
-    // })
+    }).then(function (data) {
+      var totalItem = document.body.querySelector('#totalProducts');
+      totalItem.innerHTML = state.products.length;
+    });
   },
   sortItemM: function sortItemM(state, payload) {
-    var nArray = state.products;
-    var sortedArray = nArray.sort(function (a, b) {
-      return a.price - b.price;
-    });
-    state.products = [];
-
+    // let  nArray = state.products;
+    // let sortedArray = nArray.sort((a, b) => a.price - b.price)
+    // state.products = [];
     if (payload == 'price_desc') {
-      sortedArray.map(function (v, i, a) {
-        state.products.push(v);
-      }); //state.products = 
+      // sortedArray.map((v,i,a) => {
+      //     state.products.push(v);
+      // })
+      state.products = state.products.sort(function (a, b) {
+        return a.price - b.price;
+      });
+    } else if (payload == 'price_asc') {
+      state.products = state.products.sort(function (a, b) {
+        return b.price - a.price;
+      });
+    } else if (payload == 'name') {
+      state.products = state.products.sort(function (a, b) {
+        return b.title - a.title;
+      });
     }
   } // setCars(state, data){
   //     for (var item in data){

@@ -52,9 +52,7 @@
                 return this.$store.getters['productsIndex/getAllProducts']
             }
             
-            // cars () {
-            //     return this.$store.state.shoppingCar.cars;
-            // }
+            // cars () { return this.$store.state.shoppingCar.cars }
         },
         methods: {
             // addThought(thought){ this.thoughts.push(thought) },
@@ -73,14 +71,6 @@
         },
         mounted() {
             this.$store.dispatch('productsIndex/loadData');
-            
-            // axios.get('/products')
-            // .then(response => { this.products = response.data })
-            // .then(data => {
-            //     let totalItem = document.body.querySelector('#totalProducts')
-            //     totalItem.innerHTML = this.products.length;
-            // })
-
         }
     }
 </script>

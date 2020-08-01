@@ -64,22 +64,26 @@ const mutations = {
                 state.products = response.data;
                 //console.log(state.products)
             })
-            // .then(data => {
-                //     let totalItem = document.body.querySelector('#totalProducts')
-                //     totalItem.innerHTML = this.products.length;
-                // })
+            .then(data => {
+                let totalItem = document.body.querySelector('#totalProducts')
+                totalItem.innerHTML = state.products.length;
+            })
     },
     sortItemM(state, payload){
-        let  nArray = state.products;
-        let sortedArray = nArray.sort((a, b) => a.price - b.price)
-        state.products = [];
+        // let  nArray = state.products;
+        // let sortedArray = nArray.sort((a, b) => a.price - b.price)
+        // state.products = [];
 
         
         if (payload == 'price_desc'){
-            sortedArray.map((v,i,a) => {
-                state.products.push(v);
-            })
-            //state.products = 
+            // sortedArray.map((v,i,a) => {
+            //     state.products.push(v);
+            // })
+            state.products = state.products.sort((a, b) => a.price - b.price)
+        } else if (payload == 'price_asc'){
+            state.products = state.products.sort((a, b) => b.price - a.price)
+        } else if (payload == 'name'){
+            state.products = state.products.sort((a, b) => b.title - a.title)
         }
     }
     // setCars(state, data){

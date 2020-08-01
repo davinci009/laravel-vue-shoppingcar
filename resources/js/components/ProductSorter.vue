@@ -15,6 +15,7 @@
             return {
                 selected: '',
                 options: [
+                    {value: "name", key: "Sort by name"},
                     {value: "latest", key: "Sort by latest"},
                     {value: "popularity", key: "Sort by popularity"},
                     {value: "rating", key: "Sort by average rating"},
@@ -29,7 +30,6 @@
             },
             sort(event){
                 this.$store.dispatch('productsIndex/sortItem', event.target.value)
-                //if (event.target.value == 'price_desc'){ }
             }
         },
         mounted (){
