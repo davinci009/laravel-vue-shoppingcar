@@ -1,7 +1,7 @@
 <template>
     <div class="ps-section__content">
         <div class="ps-carousel--nav owl-slider" data-owl-auto="false" data-owl-loop="false" data-owl-speed="10000" data-owl-gap="30" data-owl-nav="true" data-owl-dots="true" data-owl-item="7" data-owl-item-xs="2" data-owl-item-sm="3" data-owl-item-md="4" data-owl-item-lg="5" data-owl-item-xl="6" data-owl-duration="1000" data-owl-mousedrag="on">
-            <div class="ps-product ps-product--inner" v-for="(product, index) in getAllProducts" :key="index">
+            <div class="ps-product ps-product--inner" v-for="(product, index) in getProducts" :key="index">
                 <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/home/1.jpg" alt=""></a>
                     <div class="ps-product__badge">-16%</div>
                         <ul class="ps-product__actions" style="width: 100%;">
@@ -47,10 +47,17 @@
           }
         },
         computed : {
-            getAllProducts (){
-                
-                return this.$store.getters['productsIndex/getAllProducts']
-            }
+            getProducts (){
+                if (this.$store.state.productsIndex.order === ''){
+                 return this.$store.getters['productsIndex/getAllProducts']
+                } else if ( this.$store.state.productsIndex.order === 'price_desc' ){
+                    return this.$store.getters['productsIndex/descPrice']
+                } else if ( this.$store.state.productsIndex.order === 'price_asc' ){
+                    return this.$store.getters['productsIndex/ascPrice']
+                } else if ( this.$store.state.productsIndex.order === 'name' ){
+                    return this.$store.getters['productsIndex/byName']
+                }
+            },
             
             // cars () { return this.$store.state.shoppingCar.cars }
         },
@@ -63,7 +70,6 @@
                 axios.get(`/car/${id}/add`)
                     .then((response) => response.data)
                     .then( (data) => {
-                        console.log(data);
                         this.$store.dispatch('shoppingCar/addNewProduct', data);
                         //this.cars = data;
                     })

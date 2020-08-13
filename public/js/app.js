@@ -2207,8 +2207,16 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
-    getAllProducts: function getAllProducts() {
-      return this.$store.getters['productsIndex/getAllProducts'];
+    getProducts: function getProducts() {
+      if (this.$store.state.productsIndex.order === '') {
+        return this.$store.getters['productsIndex/getAllProducts'];
+      } else if (this.$store.state.productsIndex.order === 'price_desc') {
+        return this.$store.getters['productsIndex/descPrice'];
+      } else if (this.$store.state.productsIndex.order === 'price_asc') {
+        return this.$store.getters['productsIndex/ascPrice'];
+      } else if (this.$store.state.productsIndex.order === 'name') {
+        return this.$store.getters['productsIndex/byName'];
+      }
     } // cars () { return this.$store.state.shoppingCar.cars }
 
   },
@@ -2222,8 +2230,6 @@ __webpack_require__.r(__webpack_exports__);
       axios.get("/car/".concat(id, "/add")).then(function (response) {
         return response.data;
       }).then(function (data) {
-        console.log(data);
-
         _this.$store.dispatch('shoppingCar/addNewProduct', data); //this.cars = data;
 
       });
@@ -39027,7 +39033,7 @@ var render = function() {
           "data-owl-mousedrag": "on"
         }
       },
-      _vm._l(_vm.getAllProducts, function(product, index) {
+      _vm._l(_vm.getProducts, function(product, index) {
         return _c(
           "div",
           { key: index, staticClass: "ps-product ps-product--inner" },
@@ -53285,17 +53291,34 @@ var state = {
   products: [//{'id': 100, 'title': 'camisa manga larga XL', 'cant': 5, 'seller': 'shop52', 'price': 250, 'img': 'img/products/clothing/7.jpg'},
     //{'id': 200, 'title': 'mesa para computadoras', 'cant': 20, 'seller': 'shop52', 'price': 845, 'img': 'img/products/clothing/7.jpg'},
     //{'id': 300, 'title': 'HORNO TOSTADOR', 'cant': 5, 'seller': 'JOSE BORGES', 'price': 1, 'img': 'img/products/clothing/7.jpg'},
-  ]
+  ],
+  order: ''
 };
 var getters = {
   getAllProducts: function getAllProducts(state) {
     return state.products;
   },
   descPrice: function descPrice(state) {
-    var nArray = state.products.slice().sort(function (a, b) {
+    return state.products.slice().sort(function (a, b) {
       return a.price - b.price;
     });
-    console.log(nArray);
+  },
+  ascPrice: function ascPrice(state) {
+    return state.products.slice().sort(function (a, b) {
+      return b.price - a.price;
+    });
+  },
+  byName: function byName(state) {
+    var title = [];
+    state.products.map(function (v, i) {
+      return title[i] = v.tittle;
+    });
+    return title.sort().reduce(function (acum, value, e) {
+      state.products.map(function (v, i, a) {
+        if (value == v.tittle) acum[e] = state.products[i];
+      });
+      return acum;
+    }, {});
   } // carState (state){
   //     if (state.cars == []) return 'el carro esta vacio';
   // },
@@ -53321,13 +53344,9 @@ var actions = {
   } // getCarContent ( {commit} ) {
   //     axios.get('/car/get/content')
   //     .then( response => response.data)
-  //     .then( data => {
-  //         commit('setCars', data);
-  //     })
+  //     .then( data => commit('setCars', data))
   // },
-  // addNewProduct({commit}, data){
-  //     commit('addnew', data)
-  // },
+  // addNewProduct({commit}, data){ commit('addnew', data) },
   // deleteOneCar: async function ({commit}, id) {
   //     const result = await axios.delete(`/car/${id}/delete`);
   //     const data =  await result.data;
@@ -53346,39 +53365,24 @@ var mutations = {
     });
   },
   sortItemM: function sortItemM(state, payload) {
-    // let  nArray = state.products;
+    state.order = payload;
+    console.log(payload); // let  nArray = state.products;
     // let sortedArray = nArray.sort((a, b) => a.price - b.price)
     // state.products = [];
-    if (payload == 'price_desc') {
-      // sortedArray.map((v,i,a) => {
-      //     state.products.push(v);
-      // })
-      state.products = state.products.sort(function (a, b) {
-        return a.price - b.price;
-      });
-    } else if (payload == 'price_asc') {
-      state.products = state.products.sort(function (a, b) {
-        return b.price - a.price;
-      });
-    } else if (payload == 'name') {
-      state.products = state.products.sort(function (a, b) {
-        return b.title - a.title;
-      });
-    }
-  } // setCars(state, data){
-  //     for (var item in data){
-  //         state.cars.push(data[item]);
-  //     }
-  // },
-  // addnew(state, data){
-  //     state.cars = [];
-  //     for (var item in data){
-  //         state.cars.push(data[item]);
-  //     }
-  // },
-  // deleteItemCar(state, data) {
-  //     state.cars = state.cars.filter((value) => value.id != data);
-  // }
+
+    /*
+       if (payload == 'price_desc'){
+            // sortedArray.map((v,i,a) => { state.products.push(v) })
+            state.products = state.products.sort((a, b) => a.price - b.price)
+        } else if (payload == 'price_asc'){
+            state.products = state.products.sort((a, b) => b.price - a.price)
+        } else if (payload == 'name'){
+            state.products = state.products.sort((a, b) => b.title - a.title)
+        }
+    */
+  } // setCars(state, data){ for (var item in data){ state.cars.push(data[item]) }},
+  // addnew(state, data){ state.cars = []; for (var item in data){ state.cars.push(data[item]) }},
+  // deleteItemCar(state, data) { state.cars = state.cars.filter((value) => value.id != data) }
 
 };
 /* harmony default export */ __webpack_exports__["default"] = ({

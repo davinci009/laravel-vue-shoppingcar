@@ -3,7 +3,7 @@
         <select @change="sort($event)" v-model="selected" ref="mySelect">
         <option disabled value="">Seleccione un elemento</option>
             <option v-for="(option, index) in options" 
-                    :key="index" :value="option.value">{{option.key}}
+                    :key="index" :value="option.value" >{{option.key}}
             </option>
         </select>
     </div>
